@@ -1,0 +1,58 @@
+ANIMAL: chip, sexo, idInterno, tipoAnimal, fechaNac, raza, tamaño, color, nombre
+
+HISTORIAL: numHistorial, fecha, veterinario, medicamento, patologías 
+
+CLINICA: cif, numContacto, dirección, ciudad, fechaConsulta
+
+SEGUIMIENTO: chip, fechaCita, estado,numCaso
+
+VACUNAS: nombre, descripción, idVac, lote, fechaCaducidad, marca
+
+EMPLEADO: dni, dirección, nombre, apellidos
+
+-----------------------------------------------------------
+-----------------------------------------------------------
+
+1:1 - UNA SE VA A LA OTRA COMO FKS O AMBAS SE GUARDAN, PUEDE IRSE SOLO UNA PERO PUEDEN IRSE LAS DOS PERO SIEMPRE SIENDO FK
+
+ANIMAL 1:1 HISTORIAL
+NUMHISTORIAL SE VA A ANIMAL COMO FK 
+NUMINTERNO SE VA COMO FK AL HISTORIAL
+
+---------------------------------
+
+1:N - NO GENERAN TABLA , EL DEL 1 SE VA A LA N
+
+CLINICA 1:N VACUNAS (CIF A VACUNAS COMO FK)
+·········································
+CLINICA 1:N EMPLEADO (DNI A LA CLINICA COMO FK)
+
+---------------------------------
+
+N:M - SE GENERA TABLA CON AMBAS PKS Y SON PKS Y FKS
+
+EMPLEADO N:M SEGUIMIENTO
+	EMPLEADO_HACE_SEGUIMIENTO (DNI, NUMCASO)
+········································
+HISTORIAL N:M CLINICA
+	HISTORIAL_DE_CLINICA (NUMHISTORIAL, CIF)
+········································
+EMPLEADO N:M ANIMAL 
+	EMPLEADO_CUIDA_ANIMAL (DNI, IDINTERNO)
+
+---------------------------------
+
+1:N:N
+
+NUEVA TABLA CUYA PK SON LAS LAS N.
+
+---------------------------------
+
+LAS ISA PODRÍAN SOLUCIONARSE:
+	CREANDO UNA TABLA PARA CADA UNA 
+	
+	CREAR UNA TABLA SOLO PARA LAS SUBCLASES 
+	ANIMAL: chip, sexo, idInterno, tipoAnimal, fechaNac, raza, tamaño, color, nombre, ESTADO 
+	·······································
+	EMPLEADO: dni, dirección, nombre, apellidos, TIPO
+	
