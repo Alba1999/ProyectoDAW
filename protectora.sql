@@ -1,9 +1,13 @@
+/******************************* BASE DE DATOS *******************************/
 DROP DATABASE IF EXISTS protectora_db;
 CREATE DATABASE IF NOT EXISTS protectora_db 
 CHARACTER SET utf8mb4
 COLLATE utf8mb4_unicode_ci;
 USE protectora_db;
 
+
+
+/*********************************** TABLAS ***********************************/
 CREATE TABLE animal (
   animal_id INT PRIMARY KEY,
   chip INT,
@@ -39,7 +43,7 @@ CREATE TABLE clinica (
 
 CREATE TABLE vacunas (
   id_vac INT PRIMARY KEY,
-  nombre VARCHAR(100),
+  nombre VARCHAR(200),
   descripcion VARCHAR(200),
   fecha_caducidad DATE,
   marca VARCHAR(50),
@@ -72,6 +76,7 @@ CREATE TABLE seguimiento (
 
 /* DE LAS RELACIONES */
 CREATE TABLE clinica_historial (
+  id_cli_hi INT,
   clinica_cif INT,
   historial_num_his INT,
   PRIMARY KEY (clinica_cif, historial_num_his),
@@ -80,6 +85,7 @@ CREATE TABLE clinica_historial (
 );
 
 CREATE TABLE cuidado_animal (
+  id_vet_ani INT,
   animal_id INT,
   empleado_num_seg_soc INT,
   PRIMARY KEY (animal_id, empleado_num_seg_soc),
@@ -89,31 +95,32 @@ CREATE TABLE cuidado_animal (
 
 
 
-/*********************************** DATOS DE CARGA ********************************************/
+/******************************** DATOS DE CARGA ********************************/
 -- Insertar datos en la tabla "animal"
 INSERT INTO animal (animal_id, chip, nombre, especie, sexo, color, tamano, estado, fecha_nacimiento, imagen)
-VALUES (103, 123456, 'Max', 'Perro', 'Macho', 'Marrón', 'Mediano', 'sin hogar', '2020-04-10', 'AAA'),
-       (107, 987654, 'Luna', 'Gato', 'Hembra', 'Blanco', 'Pequeño', 'adopción', '2022-09-18', NULL),
-       (112, 456789, 'Bella', 'Perro', 'Hembra', 'Negro', 'Grande', 'sin hogar', '2019-07-20', NULL),
-       (129, 987123, 'Simba', 'Gato', 'Macho', 'Naranja', 'Mediano', 'adopción', '2021-03-12', NULL),
-       (132, 406789, 'Lucky', 'Perro', 'Macho', 'Blanco y marrón', 'Pequeño', 'recogido', '2022-02-28', NULL),
-       (138, 567890, 'Lola', 'Gato', 'Hembra', 'Blanco y negro', 'Pequeño', 'sin hogar', NULL, NULL),
-       (145, 678901, 'Rocky', 'Perro', 'Macho', 'Marrón', 'Mediano', 'acogida', '2022-09-18', NULL),
-       (149, 789012, 'Coco', 'Perro', 'Macho', 'Blanco', 'Pequeño', 'adopción', '2020-04-30', NULL),
-       (155, 890123, 'Luna', 'Gato', 'Hembra', 'Gris', 'Pequeño', 'recogido', '2021-07-22', NULL),
-       (156, 901234, 'Max', 'Perro', 'Macho', 'Negro y blanco', 'Grande', 'sin hogar', NULL, NULL),
-       (160, 123056, 'Lola', 'Gato', 'Hembra', 'Atigrado', 'Mediano', 'adopción', '2019-11-05', NULL);
-
+VALUES (1, 123456, 'Max', 'Perro', 'Macho', 'Marrón', 'Mediano', 'sin hogar', '2020-04-10', 'imagen_max.jpg'),
+       (2, 987654, 'Luna', 'Gato', 'Hembra', 'Blanco', 'Pequeño', 'adopción', '2022-09-18', 'imagen_luna.jpg'),
+       (3, 456789, 'Bella', 'Perro', 'Hembra', 'Negro', 'Grande', 'sin hogar', '2019-07-20', NULL),
+       (4, 987123, 'Simba', 'Gato', 'Macho', 'Naranja', 'Mediano', 'adopción', '2021-03-12', NULL),
+       (5, 406789, 'Lucky', 'Perro', 'Macho', 'Blanco y marrón', 'Pequeño', 'recogido', '2022-02-28', NULL),
+       (6, 567890, 'Lola', 'Gato', 'Hembra', 'Blanco y negro', 'Pequeño', 'sin hogar', NULL, NULL),
+       (7, 678901, 'Rocky', 'Perro', 'Macho', 'Marrón', 'Mediano', 'acogida', '2022-09-18', NULL),
+       (8, 789012, 'Coco', 'Perro', 'Macho', 'Blanco', 'Pequeño', 'adopción', '2020-04-30', NULL),
+       (9, 890123, 'Luna', 'Gato', 'Hembra', 'Gris', 'Pequeño', 'recogido', '2021-07-22', NULL),
+       (10, 901234, 'Max', 'Perro', 'Macho', 'Negro y blanco', 'Grande', 'sin hogar', NULL, NULL),
+       (11, 123056, 'Lola', 'Gato', 'Hembra', 'Atigrado', 'Mediano', 'adopción', '2019-11-05', NULL);
+       
 -- Insertar datos en la tabla "historial"
-INSERT INTO historial (num_his, patologias, veterinario, fecha_consulta, medicamentos)
-VALUES (354, 'Gripe canina', 'Dr. López', '2022-10-15', 'Antibióticos'),
-       (372, 'Desparasitación', 'Dr. García', '2023-01-22', 'Antibióticos'),
-       (384, 'Infección de oído', 'Dr. Rodríguez', '2023-04-10', 'Gotas antibióticas'),
-       (385, 'Fractura de pata', 'Dr. Gómez', '2023-03-15', 'Férula y analgésicos'),
-       (391, 'Problemas digestivos', 'Dra. López', '2023-02-20', 'Dieta especial y medicamentos'),
-       (397, 'Vacunación anual', 'Dr. Martínez', '2023-05-05', 'Vacuna polivalente',
-       (402, 'Extracción de dientes', 'Dra. Fernández', '2023-01-10', 'Analgésicos y antibióticos'),
-       (411, 'Desparasitación', 'Dr. Sánchez', '2023-02-28', 'Antiparasitario oral');
+INSERT INTO historial (num_his, patologias, veterinario, fecha_consulta, medicamentos, id_animal)
+VALUES (1, 'Gripe canina', 'Dr. López', '2022-10-15', 'Antibióticos', 1),
+       (2, 'Desparasitación', 'Dr. García', '2023-01-22', 'Antibióticos',  2),
+       (3, 'Infección de oído', 'Dr. Rodríguez', '2023-04-10', 'Gotas antibióticas', 3),
+       (4, 'Fractura de pata', 'Dr. Gómez', '2023-03-15', 'Férula y analgésicos', 4),
+       (5, 'Problemas digestivos', 'Dra. López', '2023-02-20', 'Dieta especial y medicamentos', 5),
+       (6, 'Vacunación anual', 'Dr. Martínez', '2023-05-05', 'Vacuna polivalente', 6),
+       (7, 'Extracción de dientes', 'Dra. Fernández', '2023-01-10', 'Analgésicos y antibióticos', 7),
+       (8, 'Desparasitación', 'Dr. Sánchez', '2023-02-28', 'Antiparasitario oral', 8);
+       
 
 -- Insertar datos en la tabla "clinica"
 INSERT INTO clinica (cif, num_contacto, nombre_cli, direccion, ciudad, fecha_consulta)
@@ -140,18 +147,18 @@ VALUES ('11111111A', 1004, 'Calle Principal 789', 'Pedro', 'Martínez', 'asalari
        ('55555555E', 1008, 'Calle Central 456', 'Antonio', 'Ramírez', 'asalariado', '4967832');
 
 -- Insertar datos en la tabla "seguimiento"
-INSERT INTO seguimiento (num_caso, fecha, estado)
-/*VALUES (1421, '2023-03-20', 'En proceso', 1001, 123456), 
-       (1458, '2023-04-05', 'Completado', 1002, 987654);*/
-VALUES (1421, '2023-03-20', 'En proceso'), 
-       (1458, '2023-04-05', 'Completado');
-/*-- Insertar datos en la tabla "clinica_historial"
+INSERT INTO seguimiento (num_caso, fecha, estado, empleado_num_seg_soc, id_animal_seg)
+VALUES (1, '2023-03-20', 'En proceso', 1004, 5), 
+       (2, '2023-04-05', 'Completado', 1005, 6),
+	   (3, '2023-03-20', 'En proceso', 1006, 7), 
+       (4, '2023-04-05', 'Completado', 1007, 8);
+       
+-- Insertar datos en la tabla "clinica_historial"
 INSERT INTO clinica_historial (clinica_cif, historial_num_his)
-VALUES ('ABC123', 391),
-       ('DEF456', 402);
+VALUES ('6583473', 1),
+       ('5860352', 2);
 
 -- Insertar datos en la tabla "cuidado_animal"
-INSERT INTO cuidado_animal (animal_id, empleado_num_seg_soc)
-VALUES (155, 1001),
-       (149, 1002);*/
-
+INSERT INTO cuidado_animal (id_vet_ani, animal_id, empleado_num_seg_soc)
+VALUES (100, 1, 1004),
+       (200, 2, 1005);
